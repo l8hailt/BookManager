@@ -31,9 +31,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
+        Category category = listCategories.get(position);
 
-        holder.tvTitle.setText(listCategories.get(position).getCategory_id());
-        holder.tvSubtitle.setText(listCategories.get(position).getCategory_name());
+        holder.tvTitle.setText((context.getString(R.string.prompt_category_id) + ": " + category.getCategory_id()));
+        holder.tvSubtitle.setText(category.getCategory_name());
         holder.imgIcon.setImageResource(R.drawable.ic_category);
 
     }

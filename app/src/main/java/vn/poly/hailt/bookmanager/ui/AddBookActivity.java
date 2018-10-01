@@ -1,5 +1,6 @@
 package vn.poly.hailt.bookmanager.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -40,6 +41,8 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
     private CategoryDAO categoryDAO;
     private List<Category> listCategories;
     private String categoryIDSelected;
+    private BroadcastReceiver brAddBook;
+    private ArrayAdapter<Category> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
         listCategories = categoryDAO.getAllCategory();
 
         setUpSpinner();
+//        setUpBroadcastReceiver();
 
     }
 
@@ -132,7 +136,7 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
     }
 
     private void setUpSpinner() {
-        ArrayAdapter<Category> adapter = new ArrayAdapter<>(this,
+         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, listCategories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnBookCategory.setAdapter(adapter);
@@ -180,6 +184,21 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
         return true;
     }
 
+
+//    private void setUpBroadcastReceiver() {
+//        brAddBook = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                Category categoryAdded = intent.getParcelableExtra("categoryAdded");
+//                if (categoryAdded != null) {
+//                    listCategories.add(categoryAdded);
+//                    adapter.notifyDataSetChanged();
+//                    Toast.makeText(AddBookActivity.this, R.string.toast_added_successfully, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
+//    }
+
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
@@ -192,5 +211,19 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
         finish();
         return true;
     }
+
+//    @Override
+//    protected void onResume() {
+//        IntentFilter intentFilter = new IntentFilter(ACTION_BOOK);
+//        registerReceiver(brAddBook, intentFilter);
+//        super.onResume();
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        unregisterReceiver(brAddBook);
+//        super.onDestroy();
+//    }
+
 
 }

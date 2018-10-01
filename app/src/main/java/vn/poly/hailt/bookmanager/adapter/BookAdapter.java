@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.poly.hailt.bookmanager.R;
@@ -46,5 +47,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookHolder> {
         return listBooks.size();
     }
 
+    public void filterList(ArrayList<Book> filteredList) {
+        listBooks = filteredList;
+        notifyDataSetChanged();
+    }
 
 }

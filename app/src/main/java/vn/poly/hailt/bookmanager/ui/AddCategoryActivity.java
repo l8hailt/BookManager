@@ -98,7 +98,10 @@ public class AddCategoryActivity extends AppCompatActivity implements Constant{
 
                 Intent intent = new Intent(ACTION_CATEGORY);
                 intent.putExtra("categoryAdded", category);
+//                Intent intentAddBookAct = new Intent(ACTION_BOOK);
+//                intent.putExtra("categoryAdded", category);
                 sendBroadcast(intent);
+//                sendBroadcast(intentAddBookAct);
                 finish();
             } else {
                 TextInputLayout tlNotifyCategoryID = findViewById(R.id.tlNotifyCategoryID);

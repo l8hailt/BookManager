@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.poly.hailt.bookmanager.BookDetailActivity;
@@ -111,7 +112,7 @@ public class BookActivity extends AppCompatActivity implements Constant {
 
             @Override
             public void afterTextChanged(Editable s) {
-                
+                filter(s.toString());
             }
         });
     }
@@ -213,6 +214,18 @@ public class BookActivity extends AppCompatActivity implements Constant {
             }
         });
         builder.show();
+    }
+
+    private void filter(String text) {
+        ArrayList<Book> filteredList = new ArrayList<>();
+
+        for (Book item : listBooks) {
+            if (item.book_id.toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        bookAdapter.filterList(filteredList);
     }
 
 }
