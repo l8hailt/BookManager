@@ -14,8 +14,9 @@ import vn.poly.hailt.bookmanager.R;
 import vn.poly.hailt.bookmanager.dao.CategoryDAO;
 import vn.poly.hailt.bookmanager.model.Category;
 
-public class AddCategoryActivity extends AppCompatActivity implements Constant{
+public class AddCategoryActivity extends AppCompatActivity implements Constant {
 
+    private Toolbar toolbar;
     private EditText edtCategoryID;
     private EditText edtCategoryName;
     private Button btnAdd;
@@ -27,11 +28,6 @@ public class AddCategoryActivity extends AppCompatActivity implements Constant{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         initViews();
 
@@ -43,6 +39,12 @@ public class AddCategoryActivity extends AppCompatActivity implements Constant{
 
 
     private void initViews() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         edtCategoryID = findViewById(R.id.edtCategoryID);
         edtCategoryName = findViewById(R.id.edtCategoryName);
         btnAdd = findViewById(R.id.btnAdd);

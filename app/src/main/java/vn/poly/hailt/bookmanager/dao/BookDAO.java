@@ -26,13 +26,13 @@ public class BookDAO implements Constant {
         db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(B_COLUMN_BOOK_ID, book.book_id);
-        values.put(B_COLUMN_CATEGORY_ID, book.category_id);
-        values.put(B_COLUMN_BOOK_NAME, book.book_name);
-        values.put(B_COLUMN_AUTHOR, book.author);
-        values.put(B_COLUMN_PUBLISHER, book.publisher);
-        values.put(B_COLUMN_PRICE, book.price);
-        values.put(B_COLUMN_QUANTITY, book.quantity);
+        values.put(BK_COLUMN_BOOK_ID, book.book_id);
+        values.put(BK_COLUMN_CATEGORY_ID, book.category_id);
+        values.put(BK_COLUMN_BOOK_NAME, book.book_name);
+        values.put(BK_COLUMN_AUTHOR, book.author);
+        values.put(BK_COLUMN_PUBLISHER, book.publisher);
+        values.put(BK_COLUMN_PRICE, book.price);
+        values.put(BK_COLUMN_QUANTITY, book.quantity);
 
         long id = db.insert(BOOK_TABLE, null, values);
 
@@ -45,7 +45,7 @@ public class BookDAO implements Constant {
         db = dbHelper.getWritableDatabase();
 
         long id = db.delete(BOOK_TABLE,
-                B_COLUMN_BOOK_ID + " = ?",
+                BK_COLUMN_BOOK_ID + " = ?",
                 new String[]{book.book_id});
 
         if (isDEBUG) Log.e("deleteBook", "deleteBook ID: " + id);
@@ -57,15 +57,15 @@ public class BookDAO implements Constant {
         db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(B_COLUMN_CATEGORY_ID, book.category_id);
-        values.put(B_COLUMN_BOOK_NAME, book.book_name);
-        values.put(B_COLUMN_AUTHOR, book.author);
-        values.put(B_COLUMN_PUBLISHER, book.publisher);
-        values.put(B_COLUMN_PRICE, book.price);
-        values.put(B_COLUMN_QUANTITY, book.quantity);
+        values.put(BK_COLUMN_CATEGORY_ID, book.category_id);
+        values.put(BK_COLUMN_BOOK_NAME, book.book_name);
+        values.put(BK_COLUMN_AUTHOR, book.author);
+        values.put(BK_COLUMN_PUBLISHER, book.publisher);
+        values.put(BK_COLUMN_PRICE, book.price);
+        values.put(BK_COLUMN_QUANTITY, book.quantity);
 
         long id = db.update(BOOK_TABLE, values,
-                B_COLUMN_BOOK_ID + " = ?",
+                BK_COLUMN_BOOK_ID + " = ?",
                 new String[]{book.book_id});
 
         if (isDEBUG) Log.e("updateBook", "updateBook ID: " + id);
@@ -78,20 +78,20 @@ public class BookDAO implements Constant {
         db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(BOOK_TABLE,
-                new String[]{B_COLUMN_BOOK_ID, B_COLUMN_CATEGORY_ID, B_COLUMN_BOOK_NAME,
-                        B_COLUMN_AUTHOR, B_COLUMN_PUBLISHER, B_COLUMN_PRICE, B_COLUMN_QUANTITY},
-                B_COLUMN_BOOK_ID + " = ?",
+                new String[]{BK_COLUMN_BOOK_ID, BK_COLUMN_CATEGORY_ID, BK_COLUMN_BOOK_NAME,
+                        BK_COLUMN_AUTHOR, BK_COLUMN_PUBLISHER, BK_COLUMN_PRICE, BK_COLUMN_QUANTITY},
+                BK_COLUMN_BOOK_ID + " = ?",
                 new String[]{book_id}, null, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
 
-            book = new Book(cursor.getString(cursor.getColumnIndex(B_COLUMN_BOOK_ID)),
-                    cursor.getString(cursor.getColumnIndex(B_COLUMN_CATEGORY_ID)),
-                    cursor.getString(cursor.getColumnIndex(B_COLUMN_BOOK_NAME)),
-                    cursor.getString(cursor.getColumnIndex(B_COLUMN_AUTHOR)),
-                    cursor.getString(cursor.getColumnIndex(B_COLUMN_PUBLISHER)),
-                    cursor.getDouble(cursor.getColumnIndex(B_COLUMN_PRICE)),
-                    cursor.getInt(cursor.getColumnIndex(B_COLUMN_QUANTITY)));
+            book = new Book(cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_ID)),
+                    cursor.getString(cursor.getColumnIndex(BK_COLUMN_CATEGORY_ID)),
+                    cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_NAME)),
+                    cursor.getString(cursor.getColumnIndex(BK_COLUMN_AUTHOR)),
+                    cursor.getString(cursor.getColumnIndex(BK_COLUMN_PUBLISHER)),
+                    cursor.getDouble(cursor.getColumnIndex(BK_COLUMN_PRICE)),
+                    cursor.getInt(cursor.getColumnIndex(BK_COLUMN_QUANTITY)));
 
         }
         if (cursor != null) {
@@ -114,13 +114,13 @@ public class BookDAO implements Constant {
         if (cursor.moveToFirst()) {
             do {
                 Book book = new Book();
-                book.book_id = cursor.getString(cursor.getColumnIndex(B_COLUMN_BOOK_ID));
-                book.category_id = cursor.getString(cursor.getColumnIndex(B_COLUMN_CATEGORY_ID));
-                book.book_name = cursor.getString(cursor.getColumnIndex(B_COLUMN_BOOK_NAME));
-                book.author = cursor.getString(cursor.getColumnIndex(B_COLUMN_AUTHOR));
-                book.publisher = cursor.getString(cursor.getColumnIndex(B_COLUMN_PUBLISHER));
-                book.price = cursor.getDouble(cursor.getColumnIndex(B_COLUMN_PRICE));
-                book.quantity = cursor.getInt(cursor.getColumnIndex(B_COLUMN_QUANTITY));
+                book.book_id = cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_ID));
+                book.category_id = cursor.getString(cursor.getColumnIndex(BK_COLUMN_CATEGORY_ID));
+                book.book_name = cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_NAME));
+                book.author = cursor.getString(cursor.getColumnIndex(BK_COLUMN_AUTHOR));
+                book.publisher = cursor.getString(cursor.getColumnIndex(BK_COLUMN_PUBLISHER));
+                book.price = cursor.getDouble(cursor.getColumnIndex(BK_COLUMN_PRICE));
+                book.quantity = cursor.getInt(cursor.getColumnIndex(BK_COLUMN_QUANTITY));
 
                 books.add(book);
             } while (cursor.moveToNext());
@@ -134,11 +134,11 @@ public class BookDAO implements Constant {
     public boolean checkBook(String bookID) {
 
         String[] columns = {
-                B_COLUMN_BOOK_ID
+                BK_COLUMN_BOOK_ID
         };
         db = dbHelper.getReadableDatabase();
 
-        String selection = B_COLUMN_BOOK_ID + " = ?";
+        String selection = BK_COLUMN_BOOK_ID + " = ?";
 
         String[] selectionArgs = {bookID};
 

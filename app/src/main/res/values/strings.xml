@@ -56,9 +56,9 @@
     <string name="prompt_quantity">Số lượng</string>
     <string name="prompt_price">Giá bìa</string>
     <string name="prompt_publisher">Nhà xuất bản</string>
-    <string name="prompt_order_id">Mã hóa đơn</string>
+    <string name="prompt_bill_id">Mã hóa đơn</string>
     <string name="title_activity_add_orders">Thêm hóa đơn</string>
-    <string name="prompt_order_date">Ngày mua</string>
+    <string name="prompt_bill_date">Ngày mua</string>
     <string name="action_next">Tiếp</string>
     <string name="title_activity_add_orders_detail">Thêm chi tiết hóa đơn</string>
     <string name="label_total">Tổng</string>
@@ -95,4 +95,6 @@
     <string name="notify_book_id_exists">Mã sách đã tồn tại</string>
     <string name="message_confirm_delete_book">Bạn có muốn xóa sách này không?</string>
     <string name="title_activity_book_detail">Chi tiết sách</string>
+    <string name="notify_length_bill_id">Mã hóa đơn gồm 3–10 kí tự</string>
+    <string name="notify_bill_id_exists">Mã hóa đơn đã tồn tại</string>
 </resources>

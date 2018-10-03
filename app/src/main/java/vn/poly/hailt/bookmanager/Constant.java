@@ -55,22 +55,41 @@ public interface Constant {
     //BOOK
     String BOOK_TABLE = "books";
 
-    String B_COLUMN_BOOK_ID = "book_id";
-    String B_COLUMN_CATEGORY_ID = "category_id";
-    String B_COLUMN_BOOK_NAME = "book_name";
-    String B_COLUMN_AUTHOR = "author";
-    String B_COLUMN_PUBLISHER = "publisher";
-    String B_COLUMN_PRICE = "price";
-    String B_COLUMN_QUANTITY = "quantity";
+    String BK_COLUMN_BOOK_ID = "book_id";
+    String BK_COLUMN_CATEGORY_ID = "category_id";
+    String BK_COLUMN_BOOK_NAME = "book_name";
+    String BK_COLUMN_AUTHOR = "author";
+    String BK_COLUMN_PUBLISHER = "publisher";
+    String BK_COLUMN_PRICE = "price";
+    String BK_COLUMN_QUANTITY = "quantity";
 
     String CREATE_BOOK_TABLE =
             "CREATE TABLE " + BOOK_TABLE + "("
-                    + B_COLUMN_BOOK_ID + " NCHAR(10) PRIMARY KEY, "
-                    + B_COLUMN_CATEGORY_ID + " NCHAR(10), "
-                    + B_COLUMN_BOOK_NAME + " NVARCHAR(50) NOT NULL, "
-                    + B_COLUMN_AUTHOR + " NVARCHAR(50), "
-                    + B_COLUMN_PUBLISHER + " NVARCHAR(50), "
-                    + B_COLUMN_PRICE + " DOUBLE NOT NULL, "
-                    + B_COLUMN_QUANTITY + " INT NOT NULL"
+                    + BK_COLUMN_BOOK_ID + " NCHAR(10) PRIMARY KEY, "
+                    + BK_COLUMN_CATEGORY_ID + " NCHAR(10), "
+                    + BK_COLUMN_BOOK_NAME + " NVARCHAR(50) NOT NULL, "
+                    + BK_COLUMN_AUTHOR + " NVARCHAR(50), "
+                    + BK_COLUMN_PUBLISHER + " NVARCHAR(50), "
+                    + BK_COLUMN_PRICE + " DOUBLE NOT NULL, "
+                    + BK_COLUMN_QUANTITY + " INT NOT NULL"
                     + ")";
+
+    //BILL
+    String BILL_TABLE = "bills";
+
+    String BL_COLUMN_ID = "bill_id";
+    String BL_COLUMN_DATE = "date";
+
+    String CREATE_BILL_TABLE =
+            "CREATE TABLE " + BILL_TABLE + "("
+                    + BL_COLUMN_ID + " NCHAR(10) PRIMARY KEY, "
+                    + BL_COLUMN_DATE + " FLOAT NOT NULL"
+                    + ")";
+
+    //BILL DETAIL
+    String BILL_DETAIL_TABLE = "bill_details";
+
+    String CREATE_BILL_DETAIL_TABLE =
+            "CREATE TABLE " + "(" +
+                    ")";
 }
