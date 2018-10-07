@@ -20,11 +20,10 @@ public interface Constant {
 
 
     // Database
+    String DATABASE_NAME = "BookManager";
+    int DATABASE_VERSION = 2;
 
     //USER
-    String DATABASE_NAME = "BookManager";
-    int DATABASE_VERSION = 1;
-
     String USER_TABLE = "users";
 
     String COLUMN_USER_NAME = "username";
@@ -83,13 +82,23 @@ public interface Constant {
     String CREATE_BILL_TABLE =
             "CREATE TABLE " + BILL_TABLE + "("
                     + BL_COLUMN_ID + " NCHAR(10) PRIMARY KEY, "
-                    + BL_COLUMN_DATE + " FLOAT NOT NULL"
+                    + BL_COLUMN_DATE + " LONG NOT NULL"
                     + ")";
 
+    // SQL_HOA_DON_CHI_TIET ="CREATE TABLE HoaDonChiTiet (maHDCT INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    //             "maHoaDon text NOT NULL, maSach text NOT NULL, soLuong INTEGER);";
     //BILL DETAIL
     String BILL_DETAIL_TABLE = "bill_details";
+    String BD_BILL_DETAIL_ID = "bill_details_id";
+    String BD_BILL_ID = "bill_id";
+    String BD_BOOK_ID = "book_id";
+    String BD_QUANTITY = "quantity";
 
     String CREATE_BILL_DETAIL_TABLE =
-            "CREATE TABLE " + "(" +
-                    ")";
+            "CREATE TABLE " + BILL_DETAIL_TABLE + "("
+                    + BD_BILL_DETAIL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + BD_BILL_ID + " NCHAR(10) NOT NULL, "
+                    + BD_BOOK_ID + " NCHAR(10) NOT NULL, "
+                    + BD_QUANTITY + " INTEGER NOT NULL"
+                    + ")";
 }

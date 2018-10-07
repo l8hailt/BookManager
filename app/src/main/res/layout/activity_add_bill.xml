@@ -15,7 +15,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:theme="@style/ToolbarTheme"
-        app:title="@string/title_activity_add_orders"
+        app:title="@string/title_activity_add_bill"
         app:titleTextColor="@color/colorWhite" />
 
     <ScrollView
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_bill_id"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="textCapCharacters"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -90,11 +90,22 @@
                         android:textSize="18sp" />
 
                     <View
+                        android:id="@+id/viewNotifyDate"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
                         android:background="@color/colorBlack" />
+
+                    <TextView
+                        android:id="@+id/tvNotifyDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/colorRed"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <ImageView
@@ -102,6 +113,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="18dp"
                     android:src="@drawable/ic_calendar" />
 
             </LinearLayout>
@@ -110,7 +122,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
 
                 <Button

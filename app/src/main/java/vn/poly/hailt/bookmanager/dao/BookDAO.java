@@ -12,6 +12,7 @@ import java.util.List;
 import vn.poly.hailt.bookmanager.Constant;
 import vn.poly.hailt.bookmanager.database.DatabaseHelper;
 import vn.poly.hailt.bookmanager.model.Book;
+import vn.poly.hailt.bookmanager.model.BookIDItem;
 
 public class BookDAO implements Constant {
 
@@ -156,5 +157,28 @@ public class BookDAO implements Constant {
         return cursorCount > 0;
 
     }
+
+    public List<BookIDItem> getAllBookID() {
+        db = dbHelper.getReadableDatabase();
+        List<BookIDItem> books = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + BOOK_TABLE;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                BookIDItem book = new BookIDItem();
+                book.bookID = cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_ID));
+
+                books.add(book);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return books;
+    }
+
 
 }

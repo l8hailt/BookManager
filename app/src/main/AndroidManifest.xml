@@ -52,7 +52,8 @@
         <activity android:name=".ui.AnalyticActivity" />
         <activity android:name=".ui.UserDetailActivity" />
         <activity android:name=".ui.CategoryDetailActivity" />
-        <activity android:name=".BookDetailActivity"></activity>
+        <activity android:name=".BookDetailActivity" />
+        <activity android:name=".ui.BillDetailActivity"></activity>
     </application>
 
 </manifest>

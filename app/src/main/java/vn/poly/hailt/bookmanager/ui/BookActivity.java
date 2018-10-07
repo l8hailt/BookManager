@@ -145,7 +145,9 @@ public class BookActivity extends AppCompatActivity implements Constant {
 
                             @Override
                             public void onItemLongClick(View view, int position) {
+//                                Book book = bookAdapter.getItem(position);
                                 showActionsDialog(position);
+//                                showConfirmDeleteBook(book);
                             }
                         }));
 
@@ -198,6 +200,7 @@ public class BookActivity extends AppCompatActivity implements Constant {
 
     private void showConfirmDeleteBook(final int position) {
         String bookName = listBooks.get(position).book_name;
+//        String bookName = book.book_name;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.action_delete) + " " + bookName);
@@ -208,7 +211,9 @@ public class BookActivity extends AppCompatActivity implements Constant {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 bookDAO.deleteBook(listBooks.get(position));
+//                bookDAO.deleteBook(book);
                 listBooks.remove(position);
+//                listBooks.remove(book);
                 Toast.makeText(BookActivity.this, R.string.toast_deleted_successfully, Toast.LENGTH_SHORT).show();
                 bookAdapter.notifyDataSetChanged();
             }

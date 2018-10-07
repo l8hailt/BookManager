@@ -2,6 +2,7 @@ package vn.poly.hailt.bookmanager.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,9 @@ public class AddBillActivity extends AppCompatActivity {
     private EditText edtBillID;
     private TextView tvDate;
     private Button btnReset;
+    private TextInputLayout tlNotifyBillID;
+    private TextView tvNotifyDate;
+    private View viewNotifyDate;
     private BillDAO billDAO;
     private long timeMS = -1;
 
@@ -64,6 +68,9 @@ public class AddBillActivity extends AppCompatActivity {
         edtBillID = findViewById(R.id.edtBillID);
         tvDate = findViewById(R.id.tvDate);
         btnReset = findViewById(R.id.btnReset);
+        tlNotifyBillID = findViewById(R.id.tlNotifyBillID);
+        tvNotifyDate = findViewById(R.id.tvNotifyDate);
+        viewNotifyDate = findViewById(R.id.viewNotifyDate);
     }
 
     private void initActions() {
@@ -104,6 +111,8 @@ public class AddBillActivity extends AppCompatActivity {
                 timeMS = calendar.getTimeInMillis();
 
                 tvDate.setText(new Date(timeMS).toString());
+                tvNotifyDate.setText(null);
+                viewNotifyDate.setBackgroundColor(Color.BLACK);
 
             }
         }, year, month, day);
@@ -117,9 +126,14 @@ public class AddBillActivity extends AppCompatActivity {
             if (!billDAO.checkBill(billID)) {
                 Bill bill = new Bill(billID, timeMS);
                 billDAO.insertBill(bill);
-                startActivity(new Intent(AddBillActivity.this, AddBillDetailActivity.class));
+                tlNotifyBillID.setError(null);
+                tlNotifyBillID.setErrorEnabled(false);
+                Intent intent = new Intent(AddBillActivity.this, AddBillDetailActivity.class);
+                intent.putExtra("billID", billID);
+                startActivity(intent);
+                finish();
             } else {
-                TextInputLayout tlNotifyBillID = findViewById(R.id.tlNotifyBillID);
+                tlNotifyBillID.setErrorEnabled(true);
                 tlNotifyBillID.setError(getString(R.string.notify_bill_id_exists));
                 edtBillID.requestFocus();
             }
@@ -135,7 +149,10 @@ public class AddBillActivity extends AppCompatActivity {
             edtBillID.setError(getString(R.string.notify_length_bill_id));
             return false;
         }
+
         if (timeMS == -1) {
+            tvNotifyDate.setText(getString(R.string.notify_date_empty));
+            viewNotifyDate.setBackgroundColor(Color.RED);
             return false;
         }
 

@@ -57,10 +57,10 @@
     <string name="prompt_price">Giá bìa</string>
     <string name="prompt_publisher">Nhà xuất bản</string>
     <string name="prompt_bill_id">Mã hóa đơn</string>
-    <string name="title_activity_add_orders">Thêm hóa đơn</string>
+    <string name="title_activity_add_bill">Thêm hóa đơn</string>
     <string name="prompt_bill_date">Ngày mua</string>
     <string name="action_next">Tiếp</string>
-    <string name="title_activity_add_orders_detail">Thêm chi tiết hóa đơn</string>
+    <string name="title_activity_add_bill_detail">Thêm chi tiết hóa đơn</string>
     <string name="label_total">Tổng</string>
     <string name="prompt_month">Tháng</string>
     <string name="notify_password_wrong">Mật khẩu không đúng</string>
@@ -97,4 +97,9 @@
     <string name="title_activity_book_detail">Chi tiết sách</string>
     <string name="notify_length_bill_id">Mã hóa đơn gồm 3–10 kí tự</string>
     <string name="notify_bill_id_exists">Mã hóa đơn đã tồn tại</string>
+    <string name="notify_date_empty">Mời chọn ngày</string>
+    <string name="notify_book_id_not_exists">Mã sách không tồn tại</string>
+    <string name="message_confirm_delete_bill_detail">Bạn có muốn xóa chi tiết này không?</string>
+    <string name="title_activity_bill_detail">Hóa đơn chi tiết</string>
+    <string name="label_total_money">Thành tiền</string>
 </resources>

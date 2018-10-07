@@ -41,6 +41,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookHolder> {
         holder.imgIcon.setImageResource(R.drawable.ic_book);
     }
 
+    public Book getItem(int position) {
+        return listBooks.get(position);
+    }
+
     @Override
     public int getItemCount() {
         if (listBooks == null) return 0;

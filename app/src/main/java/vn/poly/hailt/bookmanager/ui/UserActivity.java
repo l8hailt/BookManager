@@ -72,7 +72,7 @@ public class UserActivity extends AppCompatActivity implements Constant {
 
 //    private void removeUserLogin() {
 //        SharedPreferences pref = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-//        String username = pref.getString(KEY_USERNAME, null);
+//        Bill username = pref.getString(KEY_USERNAME, null);
 //        User user = userDAO.getUser(username);
 //        boolean sta = listUsers.remove(user);
 //        Log.e("TAGG", "" + sta);
