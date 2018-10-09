@@ -22,7 +22,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.poly.hailt.bookmanager.BookDetailActivity;
 import vn.poly.hailt.bookmanager.Constant;
 import vn.poly.hailt.bookmanager.R;
 import vn.poly.hailt.bookmanager.RecyclerItemClickListener;

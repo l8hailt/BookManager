@@ -69,6 +69,8 @@ public class AddBillDetailActivity extends AppCompatActivity {
         billID = getIntent().getStringExtra("billID");
         tvBillID.setText(billID);
 
+        billDetailDAO.getDateFromMS();
+
     }
 
     private void initViews() {

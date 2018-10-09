@@ -16,4 +16,23 @@
         app:title="@string/title_activity_analytic"
         app:titleTextColor="@color/colorWhite" />
 
+    <TextView
+        android:id="@+id/tvStatisticsByDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Today" />
+
+    <TextView
+        android:id="@+id/tvStatisticsByMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This month" />
+
+    <TextView
+        android:id="@+id/tvStatisticsByYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This year" />
+
+
 </LinearLayout>

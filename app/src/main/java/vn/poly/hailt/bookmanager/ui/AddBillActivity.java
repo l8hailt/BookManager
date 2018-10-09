@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -109,6 +110,7 @@ public class AddBillActivity extends AppCompatActivity {
                 calendar.set(year, month, dayOfMonth);
 
                 timeMS = calendar.getTimeInMillis();
+                Log.e("MILISECONDS", timeMS + "");
 
                 tvDate.setText(new Date(timeMS).toString());
                 tvNotifyDate.setText(null);

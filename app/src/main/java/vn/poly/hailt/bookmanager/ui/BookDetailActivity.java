@@ -1,4 +1,4 @@
-package vn.poly.hailt.bookmanager;
+package vn.poly.hailt.bookmanager.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +16,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import vn.poly.hailt.bookmanager.Constant;
+import vn.poly.hailt.bookmanager.R;
 import vn.poly.hailt.bookmanager.dao.BookDAO;
 import vn.poly.hailt.bookmanager.dao.CategoryDAO;
 import vn.poly.hailt.bookmanager.model.Book;
 import vn.poly.hailt.bookmanager.model.Category;
-import vn.poly.hailt.bookmanager.ui.AddCategoryActivity;
 
 public class BookDetailActivity extends AppCompatActivity implements Constant {
 
