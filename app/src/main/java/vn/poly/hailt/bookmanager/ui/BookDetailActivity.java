@@ -25,7 +25,6 @@ import vn.poly.hailt.bookmanager.model.Category;
 
 public class BookDetailActivity extends AppCompatActivity implements Constant {
 
-    private Toolbar toolbar;
     private TextView tvCategoryID;
     private Spinner spnBookCategory;
     private ImageView imgAddCategory;
@@ -34,12 +33,13 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
     private EditText edtPublisher;
     private EditText edtPrice;
     private EditText edtQuantity;
-    private Button btnSave;
+    private Button btnEdit;
     private Button btnReset;
     private BookDAO bookDAO;
     private CategoryDAO categoryDAO;
     private List<Book> listBooks;
     private List<Category> listCategories;
+    private ArrayAdapter<Category> categoryAdapter;
     private int position;
     private String categoryIDSelected;
 
@@ -54,7 +54,6 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
         bookDAO = new BookDAO(this);
         categoryDAO = new CategoryDAO(this);
         listBooks = bookDAO.getAllBook();
-        listCategories = categoryDAO.getAllCategory();
 
         setUpSpinner();
 
@@ -63,7 +62,7 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,12 +76,12 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
         edtPublisher = findViewById(R.id.edtPublisher);
         edtPrice = findViewById(R.id.edtPrice);
         edtQuantity = findViewById(R.id.edtQuantity);
-        btnSave = findViewById(R.id.btnSave);
+        btnEdit = findViewById(R.id.btnEdit);
         btnReset = findViewById(R.id.btnReset);
     }
 
     private void initActions() {
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateBook();
@@ -114,6 +113,7 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
         String price = edtPrice.getText().toString().trim();
         String quantity = edtQuantity.getText().toString().trim();
 
+
         if (validateForm(bookName, price, quantity)) {
             Book book = listBooks.get(position);
             book.category_id = categoryIDSelected;
@@ -136,6 +136,7 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
     private int checkPositionCategory(String categoryID) {
         for (int i = 0; i < listCategories.size(); i++) {
             if (categoryID.equals(listCategories.get(i).getCategory_id())) {
+                Log.e("I", i + "");
                 return i;
             }
         }
@@ -143,10 +144,11 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
     }
 
     private void setUpSpinner() {
-        ArrayAdapter<Category> adapter = new ArrayAdapter<>(this,
+        listCategories = categoryDAO.getAllCategory();
+        categoryAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, listCategories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnBookCategory.setAdapter(adapter);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnBookCategory.setAdapter(categoryAdapter);
 
         spnBookCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -168,14 +170,12 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
         if (bundle != null) {
             position = bundle.getInt("position");
             String bookID = listBooks.get(position).book_id;
-            String categoryID = listBooks.get(position).category_id;
             String bookName = listBooks.get(position).book_name;
             String author = listBooks.get(position).author;
             String publisher = listBooks.get(position).publisher;
             String price = String.valueOf(listBooks.get(position).price);
             String quantity = String.valueOf(listBooks.get(position).quantity);
             tvCategoryID.setText(bookID);
-            spnBookCategory.setSelection(checkPositionCategory(categoryID));
             edtBookName.setText(bookName);
             edtAuthor.setText(author);
             edtPublisher.setText(publisher);
@@ -209,5 +209,18 @@ public class BookDetailActivity extends AppCompatActivity implements Constant {
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listCategories = categoryDAO.getAllCategory();
+        categoryAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, listCategories);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnBookCategory.setAdapter(categoryAdapter);
+
+        String categoryID = listBooks.get(position).category_id;
+        spnBookCategory.setSelection(checkPositionCategory(categoryID));
     }
 }

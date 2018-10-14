@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import vn.poly.hailt.bookmanager.Constant;
 import vn.poly.hailt.bookmanager.R;
@@ -16,7 +17,6 @@ import vn.poly.hailt.bookmanager.model.Category;
 
 public class AddCategoryActivity extends AppCompatActivity implements Constant {
 
-    private Toolbar toolbar;
     private EditText edtCategoryID;
     private EditText edtCategoryName;
     private Button btnAdd;
@@ -39,7 +39,7 @@ public class AddCategoryActivity extends AppCompatActivity implements Constant {
 
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -100,10 +100,8 @@ public class AddCategoryActivity extends AppCompatActivity implements Constant {
 
                 Intent intent = new Intent(ACTION_CATEGORY);
                 intent.putExtra("categoryAdded", category);
-//                Intent intentAddBookAct = new Intent(ACTION_BOOK);
-//                intent.putExtra("categoryAdded", category);
                 sendBroadcast(intent);
-//                sendBroadcast(intentAddBookAct);
+                Toast.makeText(AddCategoryActivity.this, R.string.toast_added_successfully, Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 TextInputLayout tlNotifyCategoryID = findViewById(R.id.tlNotifyCategoryID);

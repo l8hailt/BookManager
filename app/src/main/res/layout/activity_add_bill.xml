@@ -35,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/logo" />
 
             <android.support.design.widget.TextInputLayout
@@ -85,7 +86,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="4dp"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textColor="@color/colorBlack"
                         android:textSize="18sp" />
 
@@ -110,10 +111,11 @@
 
                 <ImageView
                     android:id="@+id/imgDatePicker"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_marginBottom="18dp"
+                    android:contentDescription="@string/image_date_picker"
                     android:src="@drawable/ic_calendar" />
 
             </LinearLayout>
@@ -135,7 +137,8 @@
                     android:background="@drawable/custom_button"
                     android:text="@string/action_next"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnReset"
@@ -145,7 +148,8 @@
                     android:background="@drawable/custom_button"
                     android:text="@string/action_reset"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    tools:ignore="ButtonStyle" />
 
             </LinearLayout>
 

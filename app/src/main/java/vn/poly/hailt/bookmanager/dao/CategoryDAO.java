@@ -15,7 +15,7 @@ import vn.poly.hailt.bookmanager.model.Category;
 
 public class CategoryDAO implements Constant {
     private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public CategoryDAO(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -62,29 +62,29 @@ public class CategoryDAO implements Constant {
         db.close();
     }
 
-    public Category getCategory(String category_id) {
-        Category category = null;
-        db = dbHelper.getReadableDatabase();
-
-        Cursor cursor = db.query(CATEGORY_TABLE,
-                new String[]{CT_COLUMN_CATEGORY_ID, CT_COLUMN_CATEGORY_NAME},
-                CT_COLUMN_CATEGORY_ID + " = ?",
-                new String[]{category_id}, null, null, null, null);
-
-        if (cursor != null && cursor.moveToFirst()) {
-
-            category = new Category(cursor.getString(cursor.getColumnIndex(CT_COLUMN_CATEGORY_ID)),
-                    cursor.getString(cursor.getColumnIndex(CT_COLUMN_CATEGORY_NAME)));
-
-        }
-        if (cursor != null) {
-            cursor.close();
-        }
-        db.close();
-
-        return category;
-
-    }
+//    public Category getCategory(String category_id) {
+//        Category category = null;
+//        db = dbHelper.getReadableDatabase();
+//
+//        Cursor cursor = db.query(CATEGORY_TABLE,
+//                new String[]{CT_COLUMN_CATEGORY_ID, CT_COLUMN_CATEGORY_NAME},
+//                CT_COLUMN_CATEGORY_ID + " = ?",
+//                new String[]{category_id}, null, null, null, null);
+//
+//        if (cursor != null && cursor.moveToFirst()) {
+//
+//            category = new Category(cursor.getString(cursor.getColumnIndex(CT_COLUMN_CATEGORY_ID)),
+//                    cursor.getString(cursor.getColumnIndex(CT_COLUMN_CATEGORY_NAME)));
+//
+//        }
+//        if (cursor != null) {
+//            cursor.close();
+//        }
+//        db.close();
+//
+//        return category;
+//
+//    }
 
     public List<Category> getAllCategory() {
         db = dbHelper.getReadableDatabase();

@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class Category implements Parcelable {
 
-    String category_id;
-    String category_name;
+    public String category_id;
+    public String category_name;
 
     public Category(String category_id, String category_name) {
         this.category_id = category_id;
@@ -33,7 +33,7 @@ public class Category implements Parcelable {
         this.category_name = category_name;
     }
 
-    protected Category(Parcel in) {
+    private Category(Parcel in) {
         category_id = in.readString();
         category_name = in.readString();
     }

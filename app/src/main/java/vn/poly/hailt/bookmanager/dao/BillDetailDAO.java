@@ -17,7 +17,7 @@ import vn.poly.hailt.bookmanager.model.Book;
 
 public class BillDetailDAO implements Constant {
     private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public BillDetailDAO(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -86,34 +86,17 @@ public class BillDetailDAO implements Constant {
         return billDetails;
     }
 
-    public void deleteBillDetail(String billDetailID) {
-        db = dbHelper.getWritableDatabase();
-
-
-        long id = db.delete(BILL_DETAIL_TABLE,
-                BD_BILL_DETAIL_ID + " = ?",
-                new String[]{billDetailID});
-
-        if (isDEBUG) Log.e("deleteBillDetail", "deleteBillDetail ID: " + id);
-
-        db.close();
-    }
-
-    public void getDateFromMS() {
-        db = dbHelper.getReadableDatabase();
-
-        String sSQL = "SELECT strftime('%m', datetime(1538997627239/1000, 'unixepoch')) as Month";
-        Cursor cursor = db.rawQuery(sSQL, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String date = cursor.getString(0);
-                Log.e("CURSOR", date + "");
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-
-    }
+//    public void deleteBillDetail(String billDetailID) {
+//        db = dbHelper.getWritableDatabase();
+//
+//
+//        long id = db.delete(BILL_DETAIL_TABLE,
+//                BD_BILL_DETAIL_ID + " = ?",
+//                new String[]{billDetailID});
+//
+//        if (isDEBUG) Log.e("deleteBillDetail", "deleteBillDetail ID: " + id);
+//
+//        db.close();
+//    }
 
 }

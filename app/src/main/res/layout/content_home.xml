@@ -15,6 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -24,9 +25,10 @@
 
             <ImageView
                 android:id="@+id/imgUser"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:contentDescription="@string/title_activity_user"
                 android:src="@drawable/ic_user" />
 
             <TextView
@@ -45,9 +47,10 @@
 
             <ImageView
                 android:id="@+id/imgCategory"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:contentDescription="@string/title_activity_category"
                 android:src="@drawable/ic_category" />
 
             <TextView
@@ -67,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -76,9 +80,10 @@
 
             <ImageView
                 android:id="@+id/imgBook"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:contentDescription="@string/title_activity_book"
                 android:src="@drawable/ic_book" />
 
             <TextView
@@ -97,9 +102,10 @@
 
             <ImageView
                 android:id="@+id/imgOrder"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:contentDescription="@string/title_activity_bill"
                 android:src="@drawable/ic_bill" />
 
             <TextView
@@ -107,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imgOrder"
                 android:layout_centerHorizontal="true"
-                android:text="@string/title_activity_order"
+                android:text="@string/title_activity_bill"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -117,6 +123,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -126,10 +133,11 @@
 
             <ImageView
                 android:id="@+id/imgBestSeller"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_top_10" />
+                android:contentDescription="@string/title_activity_best_seller"
+                android:src="@drawable/ic_best_seller" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -147,9 +155,10 @@
 
             <ImageView
                 android:id="@+id/imgAnalytic"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:contentDescription="@string/title_activity_analytic"
                 android:src="@drawable/ic_analytic" />
 
             <TextView

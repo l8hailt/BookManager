@@ -5,34 +5,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import vn.poly.hailt.bookmanager.R;
 import vn.poly.hailt.bookmanager.dao.StatisticDAO;
 
 public class AnalyticActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private TextView tvStatisticsByDay;
     private TextView tvStatisticsByMonth;
     private TextView tvStatisticsByYear;
-    private StatisticDAO statisticDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytic);
 
-        statisticDAO = new StatisticDAO(this);
+        StatisticDAO statisticDAO = new StatisticDAO(this);
 
         initViews();
 
-        tvStatisticsByDay.setText(String.valueOf(statisticDAO.getStatisticByDay()));
-        tvStatisticsByMonth.setText(String.valueOf(statisticDAO.getStatisticByMonth()));
-        tvStatisticsByYear.setText(String.valueOf(statisticDAO.getStatisticByYear()));
+        double totalDay = statisticDAO.getStatisticByDay();
+        double totalMonth = statisticDAO.getStatisticByMonth();
+        double totalYear = statisticDAO.getStatisticByYear();
+
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+        String currencyTotalDay = fmt.format(totalDay);
+        String currencyTotalMonth = fmt.format(totalMonth);
+        String currencyTotalYear = fmt.format(totalYear);
+
+        tvStatisticsByDay.setText((getString(R.string.label_today) + ": " + currencyTotalDay));
+        tvStatisticsByMonth.setText((getString(R.string.label_this_month) + ": " + currencyTotalMonth));
+        tvStatisticsByYear.setText((getString(R.string.label_this_year) + ": " + currencyTotalYear));
 
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

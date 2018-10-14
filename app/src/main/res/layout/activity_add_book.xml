@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/logo" />
 
             <android.support.design.widget.TextInputLayout
@@ -50,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_book_id"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapCharacters"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -83,10 +84,11 @@
 
                 <ImageView
                     android:id="@+id/imgAddCategory"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+
+                    android:contentDescription="@string/image_add_category"
                     android:src="@drawable/button_plus" />
 
 
@@ -195,7 +197,8 @@
                     android:background="@drawable/custom_button"
                     android:text="@string/action_add"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnReset"
@@ -205,7 +208,8 @@
                     android:background="@drawable/custom_button"
                     android:text="@string/action_reset"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    tools:ignore="ButtonStyle" />
 
             </LinearLayout>
 

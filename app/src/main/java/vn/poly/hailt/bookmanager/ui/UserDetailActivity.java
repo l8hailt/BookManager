@@ -48,7 +48,6 @@ public class UserDetailActivity extends AppCompatActivity {
         String phoneNumber = listUsers.get(position).getPhone_number();
         tvUsername.setText(username);
         edtFullName.setText(fullname);
-        edtFullName.setSelection(fullname.length());
         edtPhoneNumber.setText(phoneNumber);
 
     }

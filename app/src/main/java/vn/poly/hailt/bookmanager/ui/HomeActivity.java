@@ -37,9 +37,8 @@ public class HomeActivity extends AppCompatActivity
     private ImageView imgOrder;
     private ImageView imgBestSeller;
     private ImageView imgAnalytic;
-    private TextView tvFullName;
-    private TextView tvPhoneNumber;
-    boolean doubleBackToExit = false;
+    private boolean doubleBackToExit = false;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +61,13 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
-        tvFullName = headerView.findViewById(R.id.tvFullName);
-        tvPhoneNumber = headerView.findViewById(R.id.tvPhoneNumber);
+        TextView tvFullName = headerView.findViewById(R.id.tvFullName);
+        TextView tvPhoneNumber = headerView.findViewById(R.id.tvPhoneNumber);
 
         UserDAO userDAO = new UserDAO(this);
 
         SharedPreferences pref = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        String username = pref.getString(KEY_USERNAME, null);
+        username = pref.getString(KEY_USERNAME, null);
         if (username != null) {
             if (username.equals("admin")) {
                 tvFullName.setText(getString(R.string.admin));
@@ -115,12 +114,20 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_change_password) {
-            startActivity(new Intent(HomeActivity.this, ChangePasswordActivity.class));
-        } else if (id == R.id.nav_logout) {
-            showConfirmLogoutDialog();
-        } else if (id == R.id.nav_exit) {
-            finish();
+        switch (id) {
+            case R.id.nav_change_password:
+                if (!username.equals("admin")) {
+                    startActivity(new Intent(HomeActivity.this, ChangePasswordActivity.class));
+                } else {
+                    Toast.makeText(this, R.string.cant_change_password_admin, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.nav_logout:
+                showConfirmLogoutDialog();
+                break;
+            case R.id.nav_exit:
+                showConfirmExitDialog();
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -128,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void initViews() {
+    private void initViews() {
         imgUser = findViewById(R.id.imgUser);
         imgCategory = findViewById(R.id.imgCategory);
         imgBook = findViewById(R.id.imgBook);
@@ -137,7 +144,7 @@ public class HomeActivity extends AppCompatActivity
         imgAnalytic = findViewById(R.id.imgAnalytic);
     }
 
-    public void initActions() {
+    private void initActions() {
         imgUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +196,21 @@ public class HomeActivity extends AppCompatActivity
                 editor.clear();
                 editor.apply();
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.action_no), null);
+        builder.show();
+    }
+
+    private void showConfirmExitDialog() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+
+        builder.setTitle(getString(R.string.action_logout));
+        builder.setMessage(getString(R.string.message_confirm_exit));
+        builder.setPositiveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });

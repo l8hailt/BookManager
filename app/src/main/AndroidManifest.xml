@@ -17,6 +17,16 @@
         <activity
             android:name=".ui.SplashScreenActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppThemeNoActionBar">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -26,16 +36,6 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ui.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppThemeNoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ui.UserActivity" />
@@ -43,9 +43,17 @@
         <activity android:name=".ui.AddUserActivity" />
         <activity android:name=".ui.CategoryActivity" />
         <activity android:name=".ui.AddCategoryActivity" />
-        <activity android:name=".ui.BookActivity" />
+        <activity android:name=".ui.BookActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity android:name=".ui.AddBookActivity" />
-        <activity android:name=".ui.BillActivity" />
+        <activity android:name=".ui.BillActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity android:name=".ui.AddBillActivity" />
         <activity android:name=".ui.AddBillDetailActivity" />
         <activity android:name=".ui.BestSellerActivity" />
@@ -53,7 +61,8 @@
         <activity android:name=".ui.UserDetailActivity" />
         <activity android:name=".ui.CategoryDetailActivity" />
         <activity android:name=".ui.BookDetailActivity" />
-        <activity android:name=".ui.BillDetailActivity"></activity>
+        <activity android:name=".ui.BillDetailActivity" />
+        <activity android:name=".ui.BookOfCategoryActivity" />
     </application>
 
 </manifest>

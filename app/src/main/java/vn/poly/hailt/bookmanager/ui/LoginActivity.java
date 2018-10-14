@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements Constant {
 
     }
 
-    public void initViews() {
+    private void initViews() {
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         cbRememberPassword = findViewById(R.id.cbRememberPassword);
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements Constant {
         tlNotifyPassword = findViewById(R.id.tlNotifyPassword);
     }
 
-    public void initActions() {
+    private void initActions() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements Constant {
             return;
         }
 
-        if (!userDAO.checkUser(username)) {
+        if (userDAO.checkUser(username)) {
             tlNotifyUsername.setErrorEnabled(true);
             tlNotifyUsername.setError(getString(R.string.notify_username_not_exists));
             return;
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements Constant {
             tlNotifyUsername.setErrorEnabled(false);
         }
 
-        if (!userDAO.checkUser(username, password)) {
+        if (!userDAO.checkUserPassword(username, password)) {
             tlNotifyPassword.setErrorEnabled(true);
             tlNotifyPassword.setError(getString(R.string.notify_password_wrong));
         } else {

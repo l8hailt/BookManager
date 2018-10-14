@@ -27,7 +27,6 @@ import vn.poly.hailt.bookmanager.model.Category;
 
 public class CategoryActivity extends AppCompatActivity implements Constant {
 
-    private Toolbar toolbar;
     private FloatingActionButton fabAddCategories;
     private RecyclerView lvListCategory;
     private List<Category> listCategories;
@@ -44,50 +43,14 @@ public class CategoryActivity extends AppCompatActivity implements Constant {
         initActions();
 
         categoryDAO = new CategoryDAO(this);
-        listCategories = categoryDAO.getAllCategory();
+        setUpRecyclerView();
 
-        categoryAdapter = new CategoryAdapter(this, listCategories);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        lvListCategory.setLayoutManager(manager);
-        lvListCategory.setAdapter(categoryAdapter);
-
-        lvListCategory.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, lvListCategory,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-
-                            }
-
-                            @Override
-                            public void onItemLongClick(View view, int position) {
-                                showActionsDialog(position);
-                            }
-                        }));
-
-        brCategory = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Category categoryAdded = intent.getParcelableExtra("categoryAdded");
-                if (categoryAdded != null) {
-                    listCategories.add(categoryAdded);
-                    categoryAdapter.notifyDataSetChanged();
-                    Toast.makeText(CategoryActivity.this, R.string.toast_added_successfully, Toast.LENGTH_SHORT).show();
-                }
-                int position = intent.getIntExtra("position", -1);
-                Category categoryUpdated = intent.getParcelableExtra("categoryUpdated");
-                if (categoryUpdated != null && position != -1) {
-                    listCategories.set(position, categoryUpdated);
-                    categoryAdapter.notifyDataSetChanged();
-                    Toast.makeText(CategoryActivity.this, R.string.toast_updated_successfully, Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
+        setUpBroadcastReceiver();
 
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,6 +69,47 @@ public class CategoryActivity extends AppCompatActivity implements Constant {
         });
     }
 
+    private void setUpRecyclerView() {
+        listCategories = categoryDAO.getAllCategory();
+        categoryAdapter = new CategoryAdapter(this, listCategories);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        lvListCategory.setLayoutManager(manager);
+        lvListCategory.setAdapter(categoryAdapter);
+
+        lvListCategory.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, lvListCategory,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                showActBookOfCategory(position);
+                            }
+
+                            @Override
+                            public void onItemLongClick(View view, int position) {
+                                showActionsDialog(position);
+                            }
+                        }));
+    }
+
+    private void setUpBroadcastReceiver() {
+        brCategory = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Category categoryAdded = intent.getParcelableExtra("categoryAdded");
+                if (categoryAdded != null) {
+                    listCategories.add(categoryAdded);
+                    categoryAdapter.notifyDataSetChanged();
+                }
+                int position = intent.getIntExtra("position", -1);
+                Category categoryUpdated = intent.getParcelableExtra("categoryUpdated");
+                if (categoryUpdated != null && position != -1) {
+                    listCategories.set(position, categoryUpdated);
+                    categoryAdapter.notifyDataSetChanged();
+                    Toast.makeText(CategoryActivity.this, R.string.toast_updated_successfully, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
 
     private void showActionsDialog(final int position) {
         CharSequence actions[] = new CharSequence[]{"Sửa", "Xóa"};
@@ -117,17 +121,21 @@ public class CategoryActivity extends AppCompatActivity implements Constant {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
-                    Intent intent = new Intent(CategoryActivity.this, CategoryDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("position", position);
-                    intent.putExtra("category", bundle);
-                    startActivity(intent);
+                    showActUpdateCategory(position);
                 } else {
                     showConfirmDeleteCategory(position);
                 }
             }
         });
         builder.show();
+    }
+
+    private void showActUpdateCategory(int position) {
+        Intent intent = new Intent(CategoryActivity.this, CategoryDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        intent.putExtra("category", bundle);
+        startActivity(intent);
     }
 
     private void showConfirmDeleteCategory(final int position) {
@@ -148,6 +156,15 @@ public class CategoryActivity extends AppCompatActivity implements Constant {
             }
         });
         builder.show();
+    }
+
+    private void showActBookOfCategory(int position) {
+        String categoryID = listCategories.get(position).category_id;
+        String categoryName = listCategories.get(position).category_name;
+        Intent intent = new Intent(CategoryActivity.this, BookOfCategoryActivity.class);
+        intent.putExtra("categoryID", categoryID);
+        intent.putExtra("categoryName", categoryName);
+        startActivity(intent);
     }
 
     @Override

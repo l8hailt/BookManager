@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".ui.CategoryDetailActivity">
 
@@ -35,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/logo" />
 
             <TextView
@@ -95,8 +98,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginTop="32dp"
                 android:orientation="horizontal">
 
@@ -110,7 +111,8 @@
                     android:background="@drawable/custom_button"
                     android:text="@string/action_edit"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnReset"
@@ -120,7 +122,8 @@
                     android:background="@drawable/custom_button"
                     android:text="@string/action_reset"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    tools:ignore="ButtonStyle" />
 
             </LinearLayout>
 

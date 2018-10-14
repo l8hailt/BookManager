@@ -26,7 +26,7 @@ public class Book implements Parcelable {
 
     }
 
-    protected Book(Parcel in) {
+    private Book(Parcel in) {
         book_id = in.readString();
         category_id = in.readString();
         book_name = in.readString();

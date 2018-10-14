@@ -15,7 +15,7 @@ import vn.poly.hailt.bookmanager.model.Book;
 public class StatisticDAO implements Constant {
 
     private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public StatisticDAO(Context context) {
         dbHelper = new DatabaseHelper(context);

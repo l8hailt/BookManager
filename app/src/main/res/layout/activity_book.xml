@@ -9,33 +9,21 @@
     android:orientation="vertical"
     tools:context=".ui.BookActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ToolbarTheme"
-        app:title="@string/title_activity_book"
-        app:titleTextColor="@color/colorWhite" />
-
-
-    <android.support.design.widget.TextInputLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        android:theme="@style/AppThemeNoActionBar.AppBarOverlay">
 
-        <EditText
-            android:id="@+id/edtBookID"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/prompt_book_id"
-            android:imeOptions="actionDone"
-            android:inputType="textCapCharacters" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ToolbarTheme"
+            app:popupTheme="@style/AppThemeNoActionBar.PopupOverlay"
+            app:titleTextColor="@color/colorWhite" />
 
-    </android.support.design.widget.TextInputLayout>
+    </android.support.design.widget.AppBarLayout>
 
 
     <android.support.design.widget.CoordinatorLayout

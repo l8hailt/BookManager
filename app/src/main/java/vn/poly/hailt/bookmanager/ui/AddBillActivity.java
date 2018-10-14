@@ -24,7 +24,6 @@ import vn.poly.hailt.bookmanager.model.Bill;
 
 public class AddBillActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private ImageView imgDatePicker;
     private Button btnNext;
     private EditText edtBillID;
@@ -58,7 +57,7 @@ public class AddBillActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -110,7 +109,7 @@ public class AddBillActivity extends AppCompatActivity {
                 calendar.set(year, month, dayOfMonth);
 
                 timeMS = calendar.getTimeInMillis();
-                Log.e("MILISECONDS", timeMS + "");
+                Log.e("Miliseconds", timeMS + "");
 
                 tvDate.setText(new Date(timeMS).toString());
                 tvNotifyDate.setText(null);

@@ -18,7 +18,7 @@ import vn.poly.hailt.bookmanager.model.BookIDItem;
 
 public class AutoCompleteBookIDAdapter extends ArrayAdapter<BookIDItem> {
 
-    private List<BookIDItem> listBookID;
+    private final List<BookIDItem> listBookID;
 
     public AutoCompleteBookIDAdapter(@NonNull Context context, @NonNull List<BookIDItem> objects) {
         super(context, 0, objects);
@@ -49,7 +49,7 @@ public class AutoCompleteBookIDAdapter extends ArrayAdapter<BookIDItem> {
         return convertView;
     }
 
-    private Filter bookIDFilter = new Filter() {
+    private final Filter bookIDFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();

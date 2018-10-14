@@ -1,6 +1,5 @@
 package vn.poly.hailt.bookmanager.ui;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -26,7 +25,6 @@ import vn.poly.hailt.bookmanager.model.Category;
 
 public class AddBookActivity extends AppCompatActivity implements Constant {
 
-    private Toolbar toolbar;
     private EditText edtBookID;
     private Spinner spnBookCategory;
     private ImageView imgAddCategory;
@@ -41,8 +39,6 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
     private CategoryDAO categoryDAO;
     private List<Category> listCategories;
     private String categoryIDSelected;
-    private BroadcastReceiver brAddBook;
-    private ArrayAdapter<Category> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +51,12 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
         bookDAO = new BookDAO(this);
         categoryDAO = new CategoryDAO(this);
 
-        listCategories = categoryDAO.getAllCategory();
-
         setUpSpinner();
-//        setUpBroadcastReceiver();
 
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -136,10 +129,11 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
     }
 
     private void setUpSpinner() {
-         adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, listCategories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnBookCategory.setAdapter(adapter);
+//        listCategories = categoryDAO.getAllCategory();
+//        categoryAdapter = new ArrayAdapter<>(this,
+//                android.R.layout.simple_spinner_item, listCategories);
+//        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spnBookCategory.setAdapter(categoryAdapter);
 
         spnBookCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -184,46 +178,19 @@ public class AddBookActivity extends AppCompatActivity implements Constant {
         return true;
     }
 
-
-//    private void setUpBroadcastReceiver() {
-//        brAddBook = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                Category categoryAdded = intent.getParcelableExtra("categoryAdded");
-//                if (categoryAdded != null) {
-//                    listCategories.add(categoryAdded);
-//                    adapter.notifyDataSetChanged();
-//                    Toast.makeText(AddBookActivity.this, R.string.toast_added_successfully, Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        };
-//    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-        super.onBackPressed();
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
-        setResult(RESULT_CANCELED);
         finish();
         return true;
     }
 
-//    @Override
-//    protected void onResume() {
-//        IntentFilter intentFilter = new IntentFilter(ACTION_BOOK);
-//        registerReceiver(brAddBook, intentFilter);
-//        super.onResume();
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        unregisterReceiver(brAddBook);
-//        super.onDestroy();
-//    }
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listCategories = categoryDAO.getAllCategory();
+        ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, listCategories);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnBookCategory.setAdapter(categoryAdapter);
+    }
 }

@@ -16,7 +16,7 @@ import vn.poly.hailt.bookmanager.model.User;
 public class UserDAO implements Constant {
 
     private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public UserDAO(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -163,12 +163,12 @@ public class UserDAO implements Constant {
         cursor.close();
         db.close();
 
-        return cursorCount > 0;
+        return cursorCount <= 0;
 
     }
 
 
-    public boolean checkUser(String username, String password) {
+    public boolean checkUserPassword(String username, String password) {
 
         // array of columns to fetch
         String[] columns = {

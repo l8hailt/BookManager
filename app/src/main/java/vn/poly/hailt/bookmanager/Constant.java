@@ -6,7 +6,7 @@ public interface Constant {
 
     //REQUEST_CODE
     int REQUEST_CODE_ADD_USER = 111;
-    int REQUETS_CODE_UPDATE_USER = 123;
+    int REQUEST_CODE_UPDATE_USER = 123;
 
     // BROADCAST RECEIVER
     String ACTION_CATEGORY = "action_category";

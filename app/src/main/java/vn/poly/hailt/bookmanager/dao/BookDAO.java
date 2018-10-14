@@ -17,7 +17,7 @@ import vn.poly.hailt.bookmanager.model.BookIDItem;
 public class BookDAO implements Constant {
 
     private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public BookDAO(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -70,6 +70,21 @@ public class BookDAO implements Constant {
                 new String[]{book.book_id});
 
         if (isDEBUG) Log.e("updateBook", "updateBook ID: " + id);
+
+        db.close();
+    }
+
+    public void updateQuantityBook(Book book, int quantity) {
+        db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(BK_COLUMN_QUANTITY, (book.quantity - quantity));
+
+        long id = db.update(BOOK_TABLE, values,
+                BK_COLUMN_BOOK_ID + " = ?",
+                new String[]{book.book_id});
+
+        if (isDEBUG) Log.e("updateQuantityBook", "updateQuantityBook ID: " + id);
 
         db.close();
     }
@@ -179,6 +194,35 @@ public class BookDAO implements Constant {
 
         return books;
     }
+
+    public List<Book> getAllBookOfCategory(String categoryID) {
+        db = dbHelper.getReadableDatabase();
+        List<Book> books = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + BOOK_TABLE + " WHERE " + BK_COLUMN_CATEGORY_ID + " = ?";
+        String[] selectArgs = {categoryID};
+        Cursor cursor = db.rawQuery(selectQuery, selectArgs);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Book book = new Book();
+                book.book_id = cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_ID));
+                book.category_id = cursor.getString(cursor.getColumnIndex(BK_COLUMN_CATEGORY_ID));
+                book.book_name = cursor.getString(cursor.getColumnIndex(BK_COLUMN_BOOK_NAME));
+                book.author = cursor.getString(cursor.getColumnIndex(BK_COLUMN_AUTHOR));
+                book.publisher = cursor.getString(cursor.getColumnIndex(BK_COLUMN_PUBLISHER));
+                book.price = cursor.getDouble(cursor.getColumnIndex(BK_COLUMN_PRICE));
+                book.quantity = cursor.getInt(cursor.getColumnIndex(BK_COLUMN_QUANTITY));
+
+                books.add(book);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return books;
+    }
+
 }
 
 

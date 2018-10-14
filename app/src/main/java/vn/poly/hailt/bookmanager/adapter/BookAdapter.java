@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import vn.poly.hailt.bookmanager.R;
 import vn.poly.hailt.bookmanager.holder.BookHolder;
@@ -16,7 +18,7 @@ import vn.poly.hailt.bookmanager.model.Book;
 
 public class BookAdapter extends RecyclerView.Adapter<BookHolder> {
 
-    private Context context;
+    private final Context context;
     private List<Book> listBooks;
 
     public BookAdapter(Context context, List<Book> listBooks) {
@@ -37,7 +39,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookHolder> {
         holder.tvTitle.setText((context.getString(R.string.prompt_book_id) + ": " + book.book_id));
         holder.tvSubTitle1.setText(book.book_name);
         holder.tvSubTitle2.setText((context.getString(R.string.prompt_quantity) + ": " + book.quantity));
-        holder.tvPrice.setText((book.price + " " + context.getString(R.string.currency)));
+
+
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+        String currencyText = fmt.format(book.price);
+        holder.tvPrice.setText(currencyText);
+
         holder.imgIcon.setImageResource(R.drawable.ic_book);
     }
 

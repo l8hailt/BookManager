@@ -1,5 +1,6 @@
 package vn.poly.hailt.bookmanager.ui;
 
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,12 +12,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,15 +31,13 @@ import vn.poly.hailt.bookmanager.model.Book;
 
 public class BookActivity extends AppCompatActivity implements Constant {
 
-    private Toolbar toolbar;
-    private EditText edtBookID;
     private FloatingActionButton fabAddBooks;
     private BookDAO bookDAO;
     private List<Book> listBooks;
     private RecyclerView lvListBook;
     private BookAdapter bookAdapter;
-    private LinearLayoutManager manager;
     private BroadcastReceiver brBook;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +55,22 @@ public class BookActivity extends AppCompatActivity implements Constant {
 
         setUpBroadcastReceiver();
 
+
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -80,13 +87,12 @@ public class BookActivity extends AppCompatActivity implements Constant {
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_activity_book);
 
-        edtBookID = findViewById(R.id.edtBookID);
         fabAddBooks = findViewById(R.id.fabAddBooks);
         lvListBook = findViewById(R.id.lvBooks);
     }
@@ -96,22 +102,6 @@ public class BookActivity extends AppCompatActivity implements Constant {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BookActivity.this, AddBookActivity.class));
-            }
-        });
-        edtBookID.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                filter(s.toString());
             }
         });
     }
@@ -130,7 +120,7 @@ public class BookActivity extends AppCompatActivity implements Constant {
     private void setUpRecyclerView() {
         listBooks = bookDAO.getAllBook();
         bookAdapter = new BookAdapter(this, listBooks);
-        manager = new LinearLayoutManager(this);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         lvListBook.setLayoutManager(manager);
         lvListBook.setAdapter(bookAdapter);
 
@@ -139,14 +129,16 @@ public class BookActivity extends AppCompatActivity implements Constant {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-
+                                Book book = bookAdapter.getItem(position);
+                                int index = listBooks.indexOf(book);
+                                showActUpdateBook(index);
                             }
 
                             @Override
                             public void onItemLongClick(View view, int position) {
-//                                Book book = bookAdapter.getItem(position);
-                                showActionsDialog(position);
-//                                showConfirmDeleteBook(book);
+                                Book book = bookAdapter.getItem(position);
+                                int index = listBooks.indexOf(book);
+                                showConfirmDeleteBook(index);
                             }
                         }));
 
@@ -164,7 +156,6 @@ public class BookActivity extends AppCompatActivity implements Constant {
                 }
                 int position = intent.getIntExtra("position", -1);
                 Book bookUpdated = intent.getParcelableExtra("bookUpdated");
-                Log.e("TAGG", "" + position);
                 if (bookUpdated != null && position != -1) {
                     listBooks.set(position, bookUpdated);
                     bookAdapter.notifyDataSetChanged();
@@ -174,32 +165,16 @@ public class BookActivity extends AppCompatActivity implements Constant {
         };
     }
 
-    private void showActionsDialog(final int position) {
-        CharSequence actions[] = new CharSequence[]{"Sửa", "Xóa"};
-        String bookName = listBooks.get(position).book_name;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(bookName);
-        builder.setItems(actions, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    Intent intent = new Intent(BookActivity.this, BookDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("position", position);
-                    intent.putExtra("book", bundle);
-                    startActivity(intent);
-                } else {
-                    showConfirmDeleteBook(position);
-                }
-            }
-        });
-        builder.show();
+    private void showActUpdateBook(int position) {
+        Intent intent = new Intent(BookActivity.this, BookDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        intent.putExtra("book", bundle);
+        startActivity(intent);
     }
 
     private void showConfirmDeleteBook(final int position) {
         String bookName = listBooks.get(position).book_name;
-//        String bookName = book.book_name;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.action_delete) + " " + bookName);
@@ -210,11 +185,9 @@ public class BookActivity extends AppCompatActivity implements Constant {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 bookDAO.deleteBook(listBooks.get(position));
-//                bookDAO.deleteBook(book);
                 listBooks.remove(position);
-//                listBooks.remove(book);
-                Toast.makeText(BookActivity.this, R.string.toast_deleted_successfully, Toast.LENGTH_SHORT).show();
                 bookAdapter.notifyDataSetChanged();
+                Toast.makeText(BookActivity.this, R.string.toast_deleted_successfully, Toast.LENGTH_SHORT).show();
             }
         });
         builder.show();
@@ -230,6 +203,34 @@ public class BookActivity extends AppCompatActivity implements Constant {
         }
 
         bookAdapter.filterList(filteredList);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search_view, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        if (searchManager != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+        searchView.setQueryHint((getString(R.string.prompt_book_id) + "..."));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 
 }

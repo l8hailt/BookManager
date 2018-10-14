@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import vn.poly.hailt.bookmanager.model.Bill;
 
 public class BillAdapter extends RecyclerView.Adapter<BillHolder> {
 
-    private Context context;
+    private final Context context;
     private List<Bill> listBills;
 
     public BillAdapter(Context context, List<Bill> listBills) {
@@ -39,15 +40,19 @@ public class BillAdapter extends RecyclerView.Adapter<BillHolder> {
         holder.imgIcon.setImageResource(R.drawable.ic_bill);
     }
 
+    public Bill getBill(int position) {
+        return listBills.get(position);
+    }
+
     @Override
     public int getItemCount() {
         if (listBills == null) return 0;
         return listBills.size();
     }
 
-//    public void filterList(ArrayList<Book> filteredList) {
-//        listBills = filteredList;
-//        notifyDataSetChanged();
-//    }
+    public void filterList(ArrayList<Bill> filteredList) {
+        listBills = filteredList;
+        notifyDataSetChanged();
+    }
 
 }

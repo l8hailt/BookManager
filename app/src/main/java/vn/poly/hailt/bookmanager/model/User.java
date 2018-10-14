@@ -5,19 +5,19 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 
-    String username;
-    String password;
-    String name;
-    String phone_number;
+    private String username;
+    private String password;
+    private String name;
+    private String phone_number;
 
     public User() {
 
     }
 
-    public User(String name, String phone_number) {
-        this.name = name;
-        this.phone_number = phone_number;
-    }
+//    public User(String name, String phone_number) {
+//        this.name = name;
+//        this.phone_number = phone_number;
+//    }
 
     public User(String user_name, String password, String name, String phone_number) {
         this.username = user_name;
@@ -26,7 +26,7 @@ public class User implements Parcelable {
         this.phone_number = phone_number;
     }
 
-    protected User(Parcel in) {
+    private User(Parcel in) {
         username = in.readString();
         password = in.readString();
         name = in.readString();

@@ -16,23 +16,44 @@
         app:title="@string/title_activity_analytic"
         app:titleTextColor="@color/colorWhite" />
 
-    <TextView
-        android:id="@+id/tvStatisticsByDay"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Today" />
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvStatisticsByMonth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This month" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:src="@drawable/logo"
+            android:contentDescription="@string/logo" />
 
-    <TextView
-        android:id="@+id/tvStatisticsByYear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This year" />
+        <TextView
+            android:id="@+id/tvStatisticsByDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/label_today"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvStatisticsByMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/label_this_month"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvStatisticsByYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/label_this_year"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 
 </LinearLayout>

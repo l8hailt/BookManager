@@ -15,7 +15,6 @@ import vn.poly.hailt.bookmanager.model.User;
 
 public class AddUserActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private EditText edtUsername;
     private EditText edtPassword;
     private EditText edtRePassword;
@@ -60,7 +59,7 @@ public class AddUserActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -121,7 +120,7 @@ public class AddUserActivity extends AppCompatActivity {
 
 
         if (validateForm(username, password, rePassword, fullname, phoneNumber)) {
-            if (!userDAO.checkUser(username)) {
+            if (userDAO.checkUser(username)) {
                 User user = new User(username, password, fullname, phoneNumber);
                 userDAO.insertUser(user);
                 Intent intent = new Intent();

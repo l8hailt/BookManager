@@ -25,13 +25,9 @@ import vn.poly.hailt.bookmanager.model.Book;
 
 public class BestSellerActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private Spinner spnPickMonth;
     private RecyclerView lvBestSeller;
     private StatisticDAO statisticDAO;
-    private BookAdapter bookAdapter;
-    private LinearLayoutManager manager;
-    private List<Book> listBooks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +95,7 @@ public class BestSellerActivity extends AppCompatActivity {
 
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -118,7 +114,7 @@ public class BestSellerActivity extends AppCompatActivity {
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spnPickMonth);
 
             // Set popupWindow height to 500px
-            popupWindow.setHeight(500);
+            popupWindow.setHeight(600);
         } catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
             // silently fail...
         }
@@ -156,9 +152,9 @@ public class BestSellerActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView(String month) {
-        listBooks = statisticDAO.getBookTop10(month);
-        bookAdapter = new BookAdapter(BestSellerActivity.this, listBooks);
-        manager = new LinearLayoutManager(BestSellerActivity.this);
+        List<Book> listBooks = statisticDAO.getBookTop10(month);
+        BookAdapter bookAdapter = new BookAdapter(BestSellerActivity.this, listBooks);
+        LinearLayoutManager manager = new LinearLayoutManager(BestSellerActivity.this);
         lvBestSeller.setLayoutManager(manager);
         lvBestSeller.setAdapter(bookAdapter);
     }

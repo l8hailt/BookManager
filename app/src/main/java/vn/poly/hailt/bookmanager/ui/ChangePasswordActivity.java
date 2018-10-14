@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,14 +39,14 @@ public class ChangePasswordActivity extends AppCompatActivity implements Constan
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         initViews();
-        initActionns();
+        initActions();
 
         userDAO = new UserDAO(this);
 
 
     }
 
-    private void initActionns() {
+    private void initActions() {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +83,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements Constan
         String username = pref.getString(KEY_USERNAME, null);
         User u = userDAO.getUser(username);
         String password = u.getPassword();
-        Log.e("TAGG", username);
-        Log.e("TAGG", password);
+
         if (!currentPassword.equals(password)) {
             tlNotifyCurrentPassword.setErrorEnabled(true);
             tlNotifyCurrentPassword.setError(getString(R.string.notify_password_wrong));

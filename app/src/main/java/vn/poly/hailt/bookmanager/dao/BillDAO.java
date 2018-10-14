@@ -15,7 +15,7 @@ import vn.poly.hailt.bookmanager.model.Bill;
 
 public class BillDAO implements Constant {
     private SQLiteDatabase db;
-    private DatabaseHelper dbHelper;
+    private final DatabaseHelper dbHelper;
 
     public BillDAO(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -75,20 +75,20 @@ public class BillDAO implements Constant {
         db.close();
     }
 
-    public void updateBill(Bill bill) {
-        db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(BL_COLUMN_DATE, bill.date);
-
-        long id = db.update(BILL_TABLE, values,
-                CT_COLUMN_CATEGORY_ID + " = ?",
-                new java.lang.String[]{bill.billID});
-
-        if (isDEBUG) Log.e("updateBill", "updateBill ID: " + id);
-
-        db.close();
-    }
+//    public void updateBill(Bill bill) {
+//        db = dbHelper.getWritableDatabase();
+//
+//        ContentValues values = new ContentValues();
+//        values.put(BL_COLUMN_DATE, bill.date);
+//
+//        long id = db.update(BILL_TABLE, values,
+//                CT_COLUMN_CATEGORY_ID + " = ?",
+//                new java.lang.String[]{bill.billID});
+//
+//        if (isDEBUG) Log.e("updateBill", "updateBill ID: " + id);
+//
+//        db.close();
+//    }
 
     public List<Bill> getAllBill() {
         db = dbHelper.getReadableDatabase();

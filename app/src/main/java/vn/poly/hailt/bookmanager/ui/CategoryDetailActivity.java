@@ -18,7 +18,6 @@ import vn.poly.hailt.bookmanager.model.Category;
 
 public class CategoryDetailActivity extends AppCompatActivity implements Constant {
 
-    private Toolbar toolbar;
     private TextView tvCategoryID;
     private EditText edtCategoryName;
     private Button btnEdit;
@@ -51,7 +50,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Constan
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);

@@ -14,8 +14,8 @@ import vn.poly.hailt.bookmanager.holder.CategoryHolder;
 import vn.poly.hailt.bookmanager.model.Category;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
-    private Context context;
-    private List<Category> listCategories;
+    private final Context context;
+    private final List<Category> listCategories;
 
     public CategoryAdapter(Context context, List<Category> listCategories) {
         this.context = context;

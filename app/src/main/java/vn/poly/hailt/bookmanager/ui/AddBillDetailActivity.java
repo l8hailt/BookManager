@@ -8,14 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import vn.poly.hailt.bookmanager.R;
 import vn.poly.hailt.bookmanager.RecyclerItemClickListener;
@@ -29,10 +33,10 @@ import vn.poly.hailt.bookmanager.model.BookIDItem;
 
 public class AddBillDetailActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private TextView tvBillID;
     private TextInputLayout tlNotifyBookID;
     private AutoCompleteTextView edtBookID;
+    private TextInputLayout tlNotifyQuantity;
     private EditText edtQuantity;
     private Button btnAdd;
     private Button btnPay;
@@ -41,9 +45,7 @@ public class AddBillDetailActivity extends AppCompatActivity {
     private BillDetailDAO billDetailDAO;
     private BookDAO bookDAO;
     private BillDAO billDAO;
-    private List<BookIDItem> listBookID;
     private List<BillDetail> listBillDetails;
-    private LinearLayoutManager manager;
     private BillDetailAdapter billDetailAdapter;
     private AutoCompleteBookIDAdapter bookIDAdapter;
     private String billID;
@@ -59,7 +61,7 @@ public class AddBillDetailActivity extends AppCompatActivity {
         bookDAO = new BookDAO(this);
         billDAO = new BillDAO(this);
 
-        listBookID = bookDAO.getAllBookID();
+        List<BookIDItem> listBookID = bookDAO.getAllBookID();
         bookIDAdapter = new AutoCompleteBookIDAdapter(this, listBookID);
         edtBookID.setAdapter(bookIDAdapter);
 
@@ -69,12 +71,10 @@ public class AddBillDetailActivity extends AppCompatActivity {
         billID = getIntent().getStringExtra("billID");
         tvBillID.setText(billID);
 
-        billDetailDAO.getDateFromMS();
-
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,6 +83,7 @@ public class AddBillDetailActivity extends AppCompatActivity {
         tvBillID = findViewById(R.id.tvBillID);
         edtBookID = findViewById(R.id.edtBookID);
         tlNotifyBookID = findViewById(R.id.tlNotifyBookID);
+        tlNotifyQuantity = findViewById(R.id.tlNotifyQuantity);
         edtQuantity = findViewById(R.id.edtQuantity);
         btnAdd = findViewById(R.id.btnAdd);
         btnPay = findViewById(R.id.btnPay);
@@ -116,8 +117,12 @@ public class AddBillDetailActivity extends AppCompatActivity {
                 listBillDetails.add(billDetail);
                 billDetailAdapter.notifyDataSetChanged();
 
-                tlNotifyBookID.setError(null);
-                tlNotifyBookID.setErrorEnabled(false);
+                edtBookID.setText(null);
+                edtQuantity.setText(null);
+
+                removeErrorTlBookID();
+                removeErrorTlQuantity();
+                edtBookID.requestFocus();
             } else {
                 tlNotifyBookID.setErrorEnabled(true);
                 tlNotifyBookID.setError(getString(R.string.notify_book_id_not_exists));
@@ -128,23 +133,76 @@ public class AddBillDetailActivity extends AppCompatActivity {
 
     private void payBillDetail() {
         double total = 0;
+        int booksInStock;
+        int quantity;
+        boolean isOK = false;
+        StringBuilder message = new StringBuilder();
 
-        for (BillDetail billDetail : listBillDetails) {
-            billDetailDAO.insertBillDetail(billDetail);
-            total = total + (billDetail.book.price * billDetail.quantity);
+        for (int i = 0; i < listBillDetails.size(); i++) {
+            BillDetail billDetail = listBillDetails.get(i);
+            booksInStock = bookDAO.getBook(billDetail.book.book_id).quantity;
+            quantity = billDetail.quantity;
+
+            if (quantity < booksInStock) {
+                isOK = true;
+                billDetailDAO.insertBillDetail(billDetail);
+                total += billDetail.book.price * billDetail.quantity;
+                bookDAO.updateQuantityBook(billDetail.book, quantity);
+
+                Locale locale = new Locale("vi", "VN");
+                NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+                String currencyTotal = fmt.format(total);
+
+                tvTotal.setText((getString(R.string.label_total) + ": " + currencyTotal));
+
+                edtBookID.setText(null);
+                edtBookID.requestFocus();
+                edtQuantity.setText(null);
+                listBillDetails.remove(billDetail);
+                billDetailAdapter.notifyDataSetChanged();
+                removeErrorTlBookID();
+                removeErrorTlQuantity();
+            } else {
+                message.append(getString(R.string.prompt_book_id)).append(" ").append(billDetail.book.book_id)
+                        .append("\n").append(getString(R.string.books_in_stock)).append(": ").append(booksInStock).append("\n");
+                isOK = false;
+
+            }
+//            if (quantity > booksInStock) {
+//                message.append(getString(R.string.prompt_book_id)).append(" ").append(billDetail.book.book_id)
+//                        .append("\n").append(getString(R.string.books_in_stock)).append(": ").append(booksInStock).append("\n");
+//                isOK = false;
+//            } else {
+//                billDetailDAO.insertBillDetail(billDetail);
+//                total += billDetail.book.price * billDetail.quantity;
+//                bookDAO.updateQuantityBook(billDetail.book, quantity);
+//
+//                Locale locale = new Locale("vi", "VN");
+//                NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+//                String currencyTotal = fmt.format(total);
+//
+//                tvTotal.setText((getString(R.string.label_total) + ": " + currencyTotal));
+//
+//                edtBookID.setText(null);
+//                edtBookID.requestFocus();
+//                edtQuantity.setText(null);
+//                listBillDetails.remove(billDetail);
+//                billDetailAdapter.notifyDataSetChanged();
+//                removeErrorTlBookID();
+//                removeErrorTlQuantity();
+//            }
         }
-        tvTotal.setText((getString(R.string.label_total) + ": " + total + " " + getString(R.string.currency)));
-        edtBookID.setText(null);
-        edtBookID.requestFocus();
-        edtQuantity.setText(null);
-        listBillDetails.clear();
-        billDetailAdapter.notifyDataSetChanged();
+
+        if (!isOK) {
+            showAlertDialogBooksInStock(message.toString());
+        }
+
     }
 
     private void setUpRecyclerView() {
         listBillDetails = new ArrayList<>();
         billDetailAdapter = new BillDetailAdapter(this, listBillDetails);
-        manager = new LinearLayoutManager(this);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         lvBillDetail.setLayoutManager(manager);
         lvBillDetail.setAdapter(billDetailAdapter);
 
@@ -153,7 +211,7 @@ public class AddBillDetailActivity extends AppCompatActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-
+                                showUpdateBillDetailDialog(position);
                             }
 
                             @Override
@@ -162,6 +220,63 @@ public class AddBillDetailActivity extends AppCompatActivity {
                             }
                         }));
 
+    }
+
+    private void showUpdateBillDetailDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.action_edit);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.dialog_update_bill_detail, null);
+        builder.setView(dialogView);
+        builder.setPositiveButton(R.string.action_edit, null);
+        builder.setNegativeButton(R.string.action_cancel, null);
+
+        final AutoCompleteTextView dialogEdtBookID = dialogView.findViewById(R.id.edtBookID);
+        dialogEdtBookID.setAdapter(bookIDAdapter);
+        final EditText dialogEdtQuantity = dialogView.findViewById(R.id.edtQuantity);
+
+        final TextInputLayout dialogTLNotifyBookID = dialogView.findViewById(R.id.tlNotifyBookID);
+
+        final BillDetail billDetail = listBillDetails.get(position);
+
+        dialogEdtBookID.setText(billDetail.book.book_id);
+        dialogEdtBookID.setSelection(billDetail.book.book_id.length());
+        dialogEdtQuantity.setText(String.valueOf(billDetail.quantity));
+
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button btnPositive = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                btnPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String bookID = dialogEdtBookID.getText().toString().trim();
+                        String quantity = dialogEdtQuantity.getText().toString().trim();
+
+                        if (validateFormDialog(bookID, quantity, dialogEdtBookID, dialogEdtQuantity)) {
+                            if (bookDAO.checkBook(bookID)) {
+
+                                billDetail.book.book_id = bookID;
+                                billDetail.quantity = Integer.parseInt(quantity);
+                                listBillDetails.set(position, billDetail);
+                                billDetailAdapter.notifyItemChanged(position);
+
+                                dialog.dismiss();
+                                hideSoftKeyboard();
+                            } else {
+                                dialogTLNotifyBookID.setErrorEnabled(true);
+                                dialogTLNotifyBookID.setError(getString(R.string.notify_book_id_not_exists));
+                            }
+                        }
+
+                    }
+                });
+            }
+        });
+        dialog.show();
     }
 
     private void showConfirmDeleteBillDetail(final int position) {
@@ -181,6 +296,15 @@ public class AddBillDetailActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void showAlertDialogBooksInStock(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.books_in_stock_not_enough);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.action_close, null);
+        builder.show();
+
+    }
+
     private boolean validateForm(String bookID, String quantity) {
         if (bookID.matches("")) {
             edtBookID.setError(getString(R.string.notify_empty));
@@ -195,9 +319,38 @@ public class AddBillDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    private boolean validateFormDialog(String bookID, String quantity, AutoCompleteTextView dialogEdtBookID, EditText dialogEdtQuantity) {
+        if (bookID.matches("")) {
+            dialogEdtBookID.setError(getString(R.string.notify_empty));
+            return false;
+        }
+        if (quantity.matches("")) {
+            dialogEdtQuantity.setError(getString(R.string.notify_empty));
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private void removeErrorTlBookID() {
+        tlNotifyBookID.setError(null);
+        tlNotifyBookID.setErrorEnabled(false);
+    }
+
+    private void removeErrorTlQuantity() {
+        tlNotifyQuantity.setError(null);
+        tlNotifyQuantity.setErrorEnabled(false);
+    }
+
+    private void hideSoftKeyboard() {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
 }
